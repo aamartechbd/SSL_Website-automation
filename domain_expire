@@ -1,0 +1,20 @@
+# List of domains
+domains=(
+  "prothom-alo.com"
+)
+
+# Loop through each domain
+for domain in "${domains[@]}"; do
+  echo "Checking domain: $domain"
+
+  # Use whois command to get the expiration date
+  expiration_date=$(whois "$domain" | grep -iE "Expiration Date|Registry Expiry Date|paid-till" | head -n 1 |>
+
+  if [[ $expiration_date =~ ^[0-9]{4}-[0-9]{2}-[0-9]{2} ]]; then
+    echo "Domain $domain expires on: $expiration_date"
+  else
+    echo "Could not retrieve expiration date for $domain"
+  fi
+
+  echo "----------------------------------------"
+done
